@@ -1,0 +1,13 @@
+services:
+  # سيرفر OSRM خاص فينا — بيحسب المسار الفعلي عبر الطرق بين نقاط
+  # المحطات (بدل الاعتماد على خدمة خارجية زي ORS). لازم setup.sh
+  # يشتغل مرة وحدة قبل أول تشغيل (تحميل + تجهيز بيانات خرائط سوريا) —
+  # راجعي README.md
+  osrm:
+    image: ghcr.io/project-osrm/osrm-backend:latest
+    command: osrm-routed --algorithm mld /data/syria-latest.osrm
+    volumes:
+      - ./data:/data
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
